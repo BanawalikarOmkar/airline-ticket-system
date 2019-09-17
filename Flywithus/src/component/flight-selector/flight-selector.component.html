@@ -1,0 +1,63 @@
+
+<div style="display: flex;">
+	<div class="mat-app-background basic-container">
+  		<div >One way Journery</div>	
+  		<app-flight-options  *ngIf='oneWayFlights' [flightArray]="oneWayFlights" (flightSelected)="onOneWayFlightSelected($event)"></app-flight-options>
+
+	</div>
+
+	<div *ngIf="this.searchCriteria.tripCtrl == '2'">
+		<div class="mat-app-background basic-container">
+			<div >Return Journery</div>	
+	  		<app-flight-options *ngIf='returnFlights' [flightArray]="returnFlights" (flightSelected)="onReturnWayFlightSelected($event)"></app-flight-options>
+	  		
+		</div>
+	</div>
+	<div  *ngIf="showTotalPrice">
+		<div>Selected Flights</div>
+		<div class="row oneWayJourneySummary"  *ngIf="oneWayFlightSelected;  ">
+			<div class="col-md-12" >
+				<span style="font-weight: bold;"> One way journey details</span>
+			</div>
+			<div class="col-md-4">Departure From : </div>
+			<div class="col-md-4"> <span>{{oneWayFlightSelected.fromAirportName }} </span> at {{oneWayFlightSelected.startTime }} hrs
+			</div>
+			<div class="col-md-4"> {{oneWayFlightSelected.totalPrice | currency:'INR'}}  </div>
+			<div class="col-md-4">Arrival at : </div>
+			<div class="col-md-4"> <span>{{oneWayFlightSelected.toAirportName}} </span> at {{oneWayFlightSelected.endTime }} hrs
+			</div>
+				
+			
+		</div>
+
+		<div class="row retunWayJourneySummary"  *ngIf="returnFlightSelected;  ">
+			<div class="col-md-12" >
+				<span style="font-weight: bold;"> Return journey details</span>
+			</div>
+			<div class="col-md-4">Departure From : </div>
+			<div class="col-md-4"> <span>{{returnFlightSelected.fromAirportName }} </span> at {{returnFlightSelected.startTime }} hrs
+			</div>
+			<div class="col-md-4"> {{returnFlightSelected.totalPrice | currency:'INR'}}  </div>
+			<div class="col-md-4">Arrival at : </div>
+			<div class="col-md-4"> <span>{{returnFlightSelected.toAirportName}} </span> at {{returnFlightSelected.endTime }} hrs
+			</div>
+				
+			
+		</div>
+
+		<div class="row" *ngIf="showTotalPrice">
+			<div class="col-md-8">Total price</div>
+			<div class="col-md-4" >{{ totalPrice | currency:'INR'}}</div>
+			<!-- <div class="col-md-8" *ngIf="oneWayFlightSelected">{{oneWayFlight.totalPrice }}</div>
+			<div class="col-md-8" *ngIf="returnFlightSelected">{{returnFlight.totalPrice}}</div> -->
+
+		</div>
+		<div class="row">
+			<div class="col-md-12" >
+		    	<button type="submit" class="btn btn-default btn-primary" #searchButton (click)="order(searchButton)">Book</button>
+		    </div>
+		</div>
+	</div>
+
+
+</div>

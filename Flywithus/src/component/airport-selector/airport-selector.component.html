@@ -1,0 +1,12 @@
+<div class="col-md-4">
+	<mat-form-field class="example-full-width">
+	    <input class="form-control" matInput placeholder={{placeHolderText}} aria-label="State" [matAutocomplete]="auto" [formControl]="locationCtrl">
+	    <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayName">
+	      <mat-option *ngFor="let location of inputLocations | async" [value]="location">
+	        <img class="example-option-img" aria-hidden [src]="location.flag" height="25">
+	        &nbsp;
+	        <span>{{location.name}}</span> 
+	      </mat-option>
+	    </mat-autocomplete>
+  	</mat-form-field>
+</div>

@@ -1,0 +1,19 @@
+<h1 mat-dialog-title>Order Details</h1>
+<div mat-dialog-content>
+	<div class="row">
+		<div class="col-md-1">Order #</div>
+	  	<div class="col-md-3">From</div>
+	  	<div class="col-md-3">To</div>
+	  	<div class="col-md-4">Date:Time</div>
+	  	<div class="col-md-1">Adults</div>
+	</div>
+	<div class="row" *ngFor="let order of data">
+	  	<div class="col-md-1">{{order.orderId}}</div>
+	  	<div class="col-md-3">{{order.location.from}}</div>
+	  	<div class="col-md-3">{{order.location.to}}</div>
+	  	<div class="col-md-4">{{order.orderDate | date:'dd-MM-yyyy hh:mm'}}</div>
+	  	<div class="col-md-1">{{order.adultTickets}}</div>
+  	</div>
+<div mat-dialog-actions>
+  <button mat-button [mat-dialog-close]="" >Ok</button>
+</div>

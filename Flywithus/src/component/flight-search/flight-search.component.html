@@ -1,0 +1,70 @@
+<div *ngIf="!formValid" class="selectorForm">
+
+	<form  class="form-horizontal" [formGroup] = 'form' >
+		<div style="display: flex;">
+		<div width="400px">
+			<div class="form-group">
+				<mat-radio-group class="form-control" aria-label="Select Journey type"  [formControl]="form.get('tripCtrl')">
+				  		<mat-radio-button  value="1">One Way</mat-radio-button>
+					  	<mat-radio-button  value="2">Return</mat-radio-button>
+				</mat-radio-group>
+			</div>
+			<div class="form-group" *ngIf="location">
+				<airport-selector [placeHolderText]="'From location'" [locations]="location" [locationCtrl]="form.get('location').get('fromLocationCtrl')"></airport-selector>
+				<airport-selector [placeHolderText]="'To location'" [locations]="location" [locationCtrl]="form.get('location').get('toLocationCtrl')"></airport-selector>
+			</div>
+			<div class="form-group">
+				<div class="col-md-4">
+					<mat-form-field>
+					  <input matInput  [min]="currentDate" [matDatepicker]="picker1" placeholder="Depart on" [formControl]="form.get('date').get('startDate')">
+					  <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+					  <mat-datepicker #picker1></mat-datepicker>
+					</mat-form-field>
+				</div>
+				<div class="col-md-4" *ngIf="!((this.form.get('tripCtrl').valueChanges | async) == 1 )">
+					<mat-form-field>
+					  <input class="form-control" matInput [min]="currentDate" [matDatepicker]="picker2" placeholder="Return on" [formControl]="form.get('date').get('returnDate')">
+					  <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+					  <mat-datepicker #picker2></mat-datepicker>
+					</mat-form-field>
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="col-md-4">
+					<mat-form-field>
+					  <mat-label>Adults </mat-label>
+					  <mat-select [formControl]="form.get('ticket').get('adults')">
+					    <mat-option *ngFor="let ticket of [1,2,3,4,5,6]" [value]="ticket">
+					      {{ticket}}
+					    </mat-option>
+					  </mat-select>
+					</mat-form-field>
+				</div>
+			</div>
+
+			<div class="form-group"> 
+			    <div class="col-md-4">
+			      <button type="submit" class="btn btn-default btn-primary " [ngClass]="{'disabled':form.invalid}" (click)="search()">Search</button>
+		    </div>
+		  </div>
+		</div>
+			<div>
+				<div class="error"></div>
+				<div *ngIf="getFormControl('location','fromLocationCtrl').touched && getFormControl('location','fromLocationCtrl').invalid" class="alert alert-danger error"> From Location cannnot be empty</div>
+				<div *ngIf="getFormControl('location','toLocationCtrl').touched && getFormControl('location','toLocationCtrl').invalid" class="alert alert-danger error"> To Location cannnot be empty</div>
+				<div *ngIf="getFormControl('location','toLocationCtrl').touched && getFormControl('location','fromLocationCtrl').value === getFormControl('location','toLocationCtrl').value && getFormControl('location','fromLocationCtrl').touched" class="alert alert-danger error"> From Location and To Location cannnot be same</div>
+				<div *ngIf="getFormControl('date','startDate').touched && getFormControl('date','startDate').invalid" class="alert alert-danger error"> Start Date cannnot be empty</div>
+				<div *ngIf="getFormControl('tripCtrl') == 2 && getFormControl('date','returnDate').touched && getFormControl('date','returnDate').invalid" class="alert alert-danger error"> Return Date cannnot be empty</div>
+				<div *ngIf="getFormControl('ticket','adults').touched && getFormControl('ticket','adults').invalid" class="alert alert-danger error"> Number to tickets to be booked cannnot be empty</div>
+				<div *ngIf="checkReturnAndStartDate()" class="alert alert-danger error"> Return Date cannnot be before Start date</div>
+			</div>
+		</div>
+	</form>
+</div>
+<div *ngIf="formValid"> 
+	<!-- <app-flight-options [searchCriteria]="this.form.value"></app-flight-options> -->
+	<app-flight-selector [airports]="selectedLocations" [searchCriteria]="this.form.value"></app-flight-selector>
+</div>
+	
+
+
